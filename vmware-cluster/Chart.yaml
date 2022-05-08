@@ -1,0 +1,14 @@
+apiVersion: v2
+name: vmware-cluster
+description: A helm chart to deploy a VMware vSphere rke2 cluster
+version: 0.1.0
+appVersion: "1.1.0"
+kubeVersion: < 1.24.0-0
+home: https://github.com/william86370/rancher-vmware-chart
+icon: https://github.com/william86370/rancher-vmware-chart/main/vmware-cluster/vsphere.png 
+keywords:
+  - vmware-cluster
+sources:
+  - https://github.com/william86370/rancher-vmware-chart
+
+type: application

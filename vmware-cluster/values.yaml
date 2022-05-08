@@ -1,0 +1,170 @@
+# Add debug flag to helm command
+debug: false
+
+# Cluster post-delete hook
+postDelete:
+  enabled: false
+
+# Login credentials for the vSphere server.
+vmwareCredentials:
+  username: username
+  password: password
+  host: vsphere.example.local
+  port: 443
+  namespace: cattle-global-data
+
+# Vsphere configuration
+vmwareClusterConfig:
+  dataCenter: /Datacenter
+  dataStore: /Datacenter/datastore/example
+  folder: /Datacenter/example
+  resourcePool: /Datacenter/host/example/Resources/example
+  hostSystem: /Datacenter/host/example/example
+  network: 
+    - "/Datacenter/network/VM Network"
+
+# Vsphere VM Base Configuration
+baseImageConfig:
+# Currently the only Supported configuration
+  useContentLibrary: true
+  contentLibrary: 
+    contentLibraryName: "example-content-library"
+    # The Name of the ISO file in the content library
+    imageName: "linux-ubuntu-20.04lts-v22.05"
+  # Extra configuration for the base image
+  cloudConfig: |+
+    #cloud-config
+
+# RKE2 Server Configuration
+enableServer: true
+serverVmConfig:
+  # Number of Server VMs to create
+  quantity: 3
+  cpu: 2
+  memoryMb: 4096
+  diskMb: 40000
+
+# RKE2 Agent Configuration
+enableAgent: true
+agentVmConfig:
+  quantity: 1
+  cpu: 2
+  memoryMb: 4096
+  diskMb: 40000
+
+# RKE2 Cluster Configuration
+cluster:
+  # Cluster name
+  name: "example-cluster-name"
+  # Cluster namespace
+  namespace: "fleet-default"
+  # RKE2 Cluster version
+  rke2Version: "v1.23.6+rke2r1" # Tested in rancher 2.6.5-RC6
+  # RKE2 Default PodSecurityPolicy
+  defaultPodSecurityPolicyTemplateName: ""
+  # RKE2 Enable NetworkPolicy
+  enableNetworkPolicy: false
+  # RKE2 Cluster CNI chart values
+  chartValues:
+    rke2-canal: {}
+  # RKE2 Cluster authorized Endpoint
+  localClusterAuthEndpoint:
+    caCerts: ""
+    enabled: false
+    fqdn: ""
+  etcd:
+    disableSnapshots: false
+    snapshotRetention: 5
+    snapshotScheduleCron: 0 */5 * * *
+  enableS3EtcdSnapshots: false
+  s3:
+    bucket: "string"
+    cloudCredentialName: "string"
+    endpoint: "string"
+    endpointCA: "string"
+    folder: "string"
+    region: "string"
+    skipSSLVerify: false
+
+  machineGlobalConfig:
+    # CNI plugin to use
+    cni: canal
+    disable-kube-proxy: false
+    etcd-expose-metrics: false
+    profile: null
+
+
+  # RKE2 Cluster Server pool
+  serverPool:
+    - name: server
+      controlPlaneRole: true
+      etcdRole: true
+      workerRole: false
+      machineOS: linux
+      unhealthyNodeTimeout: "0s"
+    # labels: {}
+    # taints:
+    # - effect: "string"
+    #   key: "string"
+    # drainBeforeDelete: boolean
+    # drainBeforeDeleteTimeout: string
+    # rollingUpdate:
+    #   maxSurge: "string"
+    #   maxUnavailable: "string"
+    # paused: false
+    # nodeStartupTimeout: "string"
+    # maxUnhealthy: "string"
+    # machineDeploymentAnnotations:
+    #   key: "string"
+    # machineDeploymentLabels:
+    #   key: "string"
+
+
+  # RKE2 Cluster Agent pool
+  agentPool:
+    - name: agent
+      controlPlaneRole: false
+      etcdRole: false
+      workerRole: true
+      machineOS: linux
+      unhealthyNodeTimeout: "0s"
+    # labels: {}
+    # taints:
+    # - effect: "string"
+    #   key: "string"
+    # drainBeforeDelete: boolean
+    # drainBeforeDeleteTimeout: string
+    # rollingUpdate:
+    #   maxSurge: "string"
+    #   maxUnavailable: "string"
+    # paused: false
+    # nodeStartupTimeout: "string"
+    # maxUnhealthy: "string"
+    # machineDeploymentAnnotations:
+    #   key: "string"
+    # machineDeploymentLabels:
+    #   key: "string"
+
+  machineSelectorConfig:
+    - config:
+        protect-kernel-defaults: false
+  registries: 
+    configs:
+        {}
+    mirrors:
+        {}
+  upgradeStrategy:
+    controlPlaneConcurrency: "1"
+    controlPlaneDrainOptions:
+      deleteEmptyDirData: true
+      enabled: true
+      gracePeriod: -1
+      ignoreDaemonSets: true
+      timeout: 120
+    workerConcurrency: 10%
+    workerDrainOptions:
+      deleteEmptyDirData: true
+      enabled: true
+      gracePeriod: -1
+      ignoreDaemonSets: true
+      timeout: 120

@@ -1,0 +1,16 @@
+{{- if .Values.enableAgent -}}
+apiVersion: rke-machine-config.cattle.io/v1
+kind: VmwarevsphereConfig
+metadata:
+  name: {{ include "vmware-cluster.agentPoolName" . }}
+  namespace: {{ include "vmware-cluster.nodePoolNamespace" . }}
+  labels:
+    {{- include "vmware-cluster.labels" . | nindent 4 }}
+# Define VM Resources From server pool config
+cpuCount: {{ quote .Values.agentVmConfig.cpu }}
+memorySize: {{ quote .Values.agentVmConfig.memoryMb }}
+diskSize: {{ quote .Values.agentVmConfig.diskMb }}
+
+
+{{- include "vmware-cluster.vmwareBaseVMConfig" .}}
+{{- end }}

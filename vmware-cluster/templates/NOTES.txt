@@ -1,0 +1,5 @@
+1.) New Cluster Will create in the Vsphere server defined in values.yaml
+
+2.) Check the Status With the following command:
+kubectl get machine.cluster.x-k8s.io -n fleet-default 
+
