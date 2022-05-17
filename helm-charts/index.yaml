@@ -3,9 +3,9 @@ entries:
   vmware-cluster:
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2022-05-17T18:12:45.7199778-04:00"
+    created: "2022-05-17T18:19:44.3286964-04:00"
     description: A helm chart to deploy a VMware vSphere rke2 cluster
-    digest: 50c144b3fa57dba7e885b23196e6e532c67b38d65bdb4e84c9899bba44cdfea6
+    digest: 2f8cae810bc870f94b1b3cf8426123ed278d4db7cab16c18d14ffcde3bba4215
     home: https://github.com/william86370/rancher-vmware-chart
     icon: https://raw.githubusercontent.com/william86370/rancher-vmware-chart/main/vmware-cluster/vsphere.png
     keywords:
@@ -20,7 +20,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 1.1.0
-    created: "2022-05-17T18:12:45.7185108-04:00"
+    created: "2022-05-17T18:19:44.3273067-04:00"
     description: A helm chart to deploy a VMware vSphere rke2 cluster
     digest: cf1bbf7e568728dcd34b1b9989494a304f15128184b6470e4f3ba95f253c26c8
     home: https://github.com/william86370/rancher-vmware-chart
@@ -35,4 +35,4 @@ entries:
     urls:
     - vmware-cluster-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-17T18:12:45.7143861-04:00"
+generated: "2022-05-17T18:19:44.3264073-04:00"

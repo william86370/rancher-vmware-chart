@@ -75,6 +75,7 @@ spec:
       data:
         identity: {{ .Values.identity | b64enc  }}
         identity.pub: {{ .Values.identitypub | b64enc  }}
+        known_hosts: ""
       kind: Secret
       metadata:
         name: flux-system
