@@ -1,2 +1,4 @@
 kubeconfig.yaml
 values-custom.yaml
+/old
+/rancher

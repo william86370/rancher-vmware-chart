@@ -17,6 +17,7 @@ spec:
   defaultPodSecurityPolicyTemplateName: {{ .Values.cluster.defaultPodSecurityPolicyTemplateName }}
   enableNetworkPolicy: {{ .Values.cluster.enableNetworkPolicy }}
   rkeConfig:
+    # Add Adational Manifests
     chartValues:
       {{ toYaml .Values.cluster.chartValues | nindent 6 }}
     {{- if not .Values.cluster.etcd.disableSnapshots }}
@@ -50,3 +51,47 @@ spec:
       {{ toYaml .Values.cluster.registries | nindent 6 }}
     upgradeStrategy:
       {{ toYaml .Values.cluster.upgradeStrategy | nindent 6 }}
+    
+    additionalManifest: |-
+      # Extra Yaml
+      {{- if .Values.bootstrapFlux }}
+      {{ ( include "vmware-cluster.flux" . ) | nindent 6 }}
+      ---
+      # define flux-system sync
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: GitRepository
+      metadata:
+        name: flux-system
+        namespace: flux-system
+      spec:
+        interval: 1m0s
+        ref:
+          branch: main
+        secretRef:
+          name: flux-system
+        url: {{  .Values.fluxSystemGit }}
+      ---
+      apiVersion: v1
+      data:
+        identity: {{ .Values.identity | b64enc  }}
+        identity.pub: {{ .Values.identitypub | b64enc  }}
+      kind: Secret
+      metadata:
+        name: flux-system
+        namespace: flux-system
+      type: Opaque
+      ---
+      apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+      kind: Kustomization
+      metadata:
+        name: flux-system
+        namespace: flux-system
+      spec:
+        interval: 10m0s
+        path: {{  .Values.fluxSystemPath }}
+        prune: true
+        sourceRef:
+          kind: GitRepository
+          name: flux-system
+      {{- end }}
+      # add flux sync

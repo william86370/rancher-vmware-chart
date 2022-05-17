@@ -5,6 +5,13 @@ debug: false
 postDelete:
   enabled: false
 
+# Install Flux on downstream cluster
+bootstrapFlux: true
+identity: ""
+identitypub: ""
+fluxSystemGit: ssh://git@github.com/william86370/cluster-deployment
+fluxSystemPath: ./flux-global/flux-system
+
 # Login credentials for the vSphere server.
 vmwareCredentials:
   username: username
@@ -59,7 +66,7 @@ cluster:
   # Cluster namespace
   namespace: "fleet-default"
   # RKE2 Cluster version
-  rke2Version: "v1.23.6+rke2r1" # Tested in rancher 2.6.5-RC6
+  rke2Version: "	v1.22.9+rke2r2" # Tested in rancher 2.6.5-RC6
   # RKE2 Default PodSecurityPolicy
   defaultPodSecurityPolicyTemplateName: ""
   # RKE2 Enable NetworkPolicy
